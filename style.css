@@ -18,7 +18,7 @@ html, body {
   position: fixed; inset: 0; pointer-events: none; z-index: 2; overflow: hidden;
 }
 
-/* ─── INTIMATE CANDLELIGHT MOTES & ROSE PETALS ─── */
+/* ─── WARM CELEBRATION LIGHTS & CONFETTI ─── */
 .candle-mote {
   position: absolute; border-radius: 50%; pointer-events: none;
   background: radial-gradient(circle, rgba(255, 220, 150, 0.85) 0%, rgba(230, 140, 50, 0.25) 60%, transparent 80%);
@@ -32,11 +32,11 @@ html, body {
   100% { transform: translateY(-75vh) scale(1.1); opacity: 0; }
 }
 
-.petal {
-  position: absolute; top: -60px; border-radius: 80% 0 80% 0; opacity: 0.85;
-  animation: petalFall var(--pd, 6s) linear var(--pdelay, 0s) infinite;
+.confetti-drift {
+  position: absolute; top: -60px; border-radius: 3px; opacity: 0.85;
+  animation: confettiDrift var(--cd, 6s) linear var(--cdelay, 0s) infinite;
 }
-@keyframes petalFall {
+@keyframes confettiDrift {
   0% { transform: translateY(0) rotate(0deg); opacity: 0.85; }
   50% { transform: translateY(55vh) translateX(-15px) rotate(180deg); opacity: 0.65; }
   100% { transform: translateY(110vh) translateX(10px) rotate(360deg); opacity: 0; }
@@ -210,7 +210,12 @@ html, body {
   color: #c0392b; font-size: 1.25rem; background: #fff5f2;
 }
 .key-submit {
-  color: #e91e63; font-size: 1.35rem; background: #ffebee;
+  color: #0277bd; font-size: 1.35rem; background: #e1f5fe;
+}
+
+button:focus-visible {
+  outline: 3px solid #1769aa;
+  outline-offset: 4px;
 }
 
 #retry-btn {
@@ -573,14 +578,23 @@ html, body {
 
 .confetti-piece { position: fixed; z-index: 200; pointer-events: none; animation: confettiFall var(--cf-d, 3s) ease-in var(--cf-delay, 0s) forwards; opacity: 0; }
 @keyframes confettiFall { 0%{opacity:1;transform:translateY(0) rotate(0deg)} 80%{opacity:1} 100%{opacity:0;transform:translateY(100vh) rotate(720deg)} }
+.trail-sparkle {
+  position: fixed;
+  z-index: 200;
+  pointer-events: none;
+  animation: sparkleDrift 0.8s ease-out forwards;
+}
+@keyframes sparkleDrift {
+  to { opacity: 0; transform: translateY(-18px) scale(0.6) rotate(18deg); }
+}
 
-/* ─── MYSTERY GIFT BOXES SCREEN (3 FLOATING HEART BOXES) ─── */
+/* ─── MYSTERY GIFT BOXES SCREEN ─── */
 #gift-screen {
   position: fixed; inset: 0; z-index: 105;
-  background-color: #fff2f6;
+  background-color: #fff8e8;
   background-image: 
-    radial-gradient(ellipse at 50% 45%, rgba(255, 255, 255, 0.72) 0%, rgba(255, 242, 246, 0.45) 55%, rgba(250, 218, 228, 0.8) 100%),
-    repeating-linear-gradient(90deg, #fff4f8 0px, #fff4f8 24px, #fae0e8 24px, #fae0e8 48px);
+    radial-gradient(ellipse at 50% 45%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 248, 232, 0.48) 55%, rgba(255, 224, 190, 0.78) 100%),
+    repeating-linear-gradient(90deg, #fff8e8 0px, #fff8e8 24px, #ffedcf 24px, #ffedcf 48px);
   display: flex; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none;
   transition: opacity 0.6s ease;
@@ -624,7 +638,7 @@ html, body {
   position: relative; z-index: 5; box-sizing: border-box;
 }
 
-/* 3 Heart Mystery Boxes Row (Original Position Restored) */
+/* Three floating wrapped gifts */
 .mystery-boxes-row {
   display: flex; align-items: center; justify-content: center;
   gap: clamp(16px, 4.5vw, 64px);
@@ -637,6 +651,12 @@ html, body {
   cursor: pointer;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
   user-select: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  appearance: none;
 }
 
 /* Floating Animations for the 3 Boxes */
@@ -665,11 +685,11 @@ html, body {
   transform: scale(0.94) translateY(-8px) !important;
 }
 
-.heart-box-visual {
+.gift-box-visual {
   width: 100%;
   display: flex; justify-content: center; align-items: center;
 }
-.heart-box-svg {
+.gift-box-svg {
   width: 100%; height: auto;
   max-height: clamp(150px, 30vh, 240px);
   display: block; overflow: visible;
@@ -1601,6 +1621,21 @@ html, body {
   .keypad { grid-template-columns: repeat(3, 48px); gap: 8px 14px; }
   .key-btn { width: 48px; height: 48px; font-size: 1.15rem; }
 
+  .gift-stage {
+    justify-content: space-evenly;
+    padding: 24px 14px;
+  }
+  .mystery-boxes-row { gap: 8px; margin: 0; }
+  .mystery-box-item { flex-basis: clamp(96px, 28vw, 170px); }
+  .gift-box-svg { max-height: 22vh; }
+  .shinchan-cameo-inner {
+    width: clamp(180px, 54vw, 270px);
+    height: clamp(120px, 22vh, 180px);
+  }
+  .mystery-prompt-wrap { margin: 0 0 8px; }
+  .mystery-title { font-size: clamp(1.4rem, 6vw, 2rem); }
+  .mystery-subtitle { font-size: clamp(1.2rem, 5vw, 1.65rem); }
+
   /* Mobile Clothesline Board */
   .memories-board-container {
     width: 98vw;
@@ -1659,5 +1694,14 @@ html, body {
     font-size: 1rem;
     line-height: 1.55;
     margin-bottom: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

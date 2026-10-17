@@ -38,7 +38,7 @@ function playTick() {}
 function playKeyClick() {}
 function playMidnightChime() {}
 
-/* ─── INTIMATE CANDLELIGHT MOTES & ROSE PETALS ─── */
+/* ─── CELEBRATION LIGHTS & CONFETTI ─── */
 (function createBackground() {
   const bg = document.getElementById('bg-ambient');
   if (!bg) return;
@@ -49,17 +49,17 @@ function playMidnightChime() {}
     m.style.cssText = `width:${msz}px;height:${msz}px;left:${Math.random()*100}%;bottom:${Math.random()*25}%;--md:${Math.random()*5+6}s;--mdelay:-${Math.random()*6}s;`;
     bg.appendChild(m);
   }
-  const colors = ['#8a1528','#6b0f1d','#a82035','#4f0b15'];
+  const colors = ['#ff7043','#26a69a','#ffca28','#7e57c2','#ec407a'];
   for (let i = 0; i < 16; i++) {
     const p = document.createElement('div');
-    p.className = 'petal';
-    p.style.cssText = `left:${Math.random()*105}%;width:${Math.random()*12+10}px;height:${Math.random()*14+12}px;background:${colors[Math.floor(Math.random()*colors.length)]};--pd:${Math.random()*4+5}s;--pdelay:-${Math.random()*7}s;`;
+    p.className = 'confetti-drift';
+    p.style.cssText = `left:${Math.random()*105}%;width:${Math.random()*12+10}px;height:${Math.random()*14+12}px;background:${colors[Math.floor(Math.random()*colors.length)]};--cd:${Math.random()*4+5}s;--cdelay:-${Math.random()*7}s;`;
     bg.appendChild(p);
   }
 })();
 
-/* ─── SHINCHAN PASSCODE VERIFICATION (4 DIGITS) ─── */
-const TARGET_PASSCODE = "2026"; // 4-digit passcode
+/* ─── BIRTHDAY CODE VERIFICATION (4 DIGITS) ─── */
+const TARGET_PASSCODE = "2026"; // Change this four-digit code for the recipient.
 
 const SHINCHAN_GIFS = {
   ask: "assets/shinchan-birthday.png",
@@ -115,14 +115,14 @@ function submitBirthdayDate() {
   }
 
   if (enteredDigits === TARGET_PASSCODE) {
-    // Correct Passcode (2005) - Directly transition to the Surprise Question Screen
+    // A correct birthday code opens the surprise screen.
     const danceGif = document.getElementById('dance-gif');
     if (danceGif) {
       danceGif.src = DANCE_GIF_URL;
     }
     const archText = document.getElementById('arch-text-path');
     if (archText) {
-      archText.textContent = "I have made something for you";
+      archText.textContent = "A little birthday surprise!";
     }
     const textEl = document.querySelector('.arched-text');
     if (textEl) {
@@ -134,7 +134,7 @@ function submitBirthdayDate() {
     const promptEl = document.getElementById('surprise-prompt');
     if (promptEl) {
       promptEl.style.display = 'block';
-      promptEl.innerHTML = "Do you wanna see it ?";
+      promptEl.textContent = "Ready to see what's inside?";
       triggerElementAnim(promptEl, 'prompt-entrance-pop');
     }
     const danceWrap = document.querySelector('.dance-gif-wrap');
@@ -146,12 +146,12 @@ function submitBirthdayDate() {
       btnGroup.innerHTML = `
         <button id="btn-yes" class="pill-btn yes-btn" onclick="handleChoice('yes')">
           <span class="btn-shine-tr"></span>
-          <span class="btn-label">YES</span>
+          <span class="btn-label">SHOW ME!</span>
           <span class="btn-shine-bl"></span>
         </button>
         <button id="btn-no" class="pill-btn no-btn" onclick="handleChoice('no')">
           <span class="btn-shine-tr"></span>
-          <span class="btn-label">NO</span>
+          <span class="btn-label">NOT YET</span>
           <span class="btn-shine-bl"></span>
         </button>
       `;
@@ -168,7 +168,7 @@ function submitBirthdayDate() {
   } else {
     // Wrong Passcode
     img.src = SHINCHAN_GIFS.wrong;
-    txt.textContent = "Oops! Wrong Passcode! Try again, cutie! 🥺";
+    txt.textContent = "That isn't the birthday code. Give it another try! ✨";
     card.classList.remove('shake');
     void card.offsetWidth;
     card.classList.add('shake');
@@ -186,7 +186,7 @@ function resetQuiz() {
   const retryBtn = document.getElementById('retry-btn');
 
   img.src = SHINCHAN_GIFS.ask;
-  txt.textContent = "Enter the 4-digit secret passcode 💖";
+  txt.textContent = "Enter the 4-digit birthday code to begin 🎉";
   keypad.classList.remove('hidden-btn');
   retryBtn.classList.add('hidden-btn');
 }
@@ -212,40 +212,30 @@ function triggerElementAnim(el, animClass) {
 
 /* ─── SURPRISE CHOICE INTERACTION (YES / NO) ─── */
 const DANCE_GIF_URL = "assets/shinchan-dance.gif";
-const PLEADING_GIF_URL = "assets/shinchan-pleading.gif";
 const EXCITED_GIF_URL = "assets/shinchan-excited.gif";
 
 function handleChoice(choice) {
   const danceGif = document.getElementById('dance-gif');
 
   if (choice === 'no') {
-    if (danceGif) {
-      danceGif.src = PLEADING_GIF_URL;
-    }
     const promptEl = document.getElementById('surprise-prompt');
     if (promptEl) {
-      promptEl.innerHTML = "Are you sure? 🥺 Please say YES! 💖";
+      promptEl.textContent = "No rush! Your surprise will be here whenever you're ready. 🎁";
       triggerElementAnim(promptEl, 'prompt-entrance-pop');
-    }
-    const noBtn = document.getElementById('btn-no');
-    if (noBtn) {
-      noBtn.style.animation = 'none';
-      void noBtn.offsetWidth;
-      noBtn.style.animation = 'cardShake 0.4s ease';
     }
     return;
   }
 
-  // When choice === 'yes' -> Show "Are you really excited?" screen with distinct animation
+  // Build anticipation before revealing the gifts.
   const archText = document.getElementById('arch-text-path');
   if (archText) {
-    archText.textContent = "Are you really excited?";
+    archText.textContent = "Let the celebration begin!";
   }
   const textEl = document.querySelector('.arched-text');
   if (textEl) {
     textEl.classList.add('excited-mode');
   }
-  // Trigger Distinct Energetic Pop & Spring Bounce for "Are you really excited?"
+  // Give the celebration title a lively entrance.
   triggerTitleAnim('anim-excited-bounce');
 
   if (danceGif) {
@@ -264,12 +254,7 @@ function handleChoice(choice) {
     btnGroup.innerHTML = `
       <button class="pill-btn yes-btn" onclick="handleExcitedChoice()">
         <span class="btn-shine-tr"></span>
-        <span class="btn-label">YES</span>
-        <span class="btn-shine-bl"></span>
-      </button>
-      <button class="pill-btn yes-btn" onclick="handleExcitedChoice()">
-        <span class="btn-shine-tr"></span>
-        <span class="btn-label">YES</span>
+        <span class="btn-label">OPEN YOUR GIFTS!</span>
         <span class="btn-shine-bl"></span>
       </button>
     `;
@@ -421,7 +406,7 @@ const MYSTERY_GIFTS = {
   3: {
     icon: "👑",
     title: "Gift #3: Lifetime Happiness Pass",
-    desc: "Unlimited hugs, endless laughter, and all your deepest birthday wishes coming true! 🎁💫💖"
+    desc: "A lifetime pass to more laughter, new adventures, happy memories, and wishes coming true! 🎁💫"
   }
 };
 
@@ -463,23 +448,23 @@ function closeGiftModal() {
   }
 }
 
-/* ─── SPECIAL BOX 3: LOVE & BIRTHDAY LETTER (TYPEWRITER ANIMATION) ─── */
+/* ─── SPECIAL BOX 3: BIRTHDAY LETTER (TYPEWRITER ANIMATION) ─── */
 const LETTER_SECTIONS = [
   {
     id: 'letter-headline-el',
-    text: "Happy birthday to my favourite\nperson! ❤️"
+    text: "Happy birthday,\nsuperstar! 🎉"
   },
   {
     id: 'letter-p1-el',
-    text: "I hope this year brings you everything you've been wishing for and so much more. Thank you for making my days happier, my bad days easier, and my life a little more beautiful just by being in it. 🥺💖"
+    text: "May the year ahead bring exciting opportunities, everyday joys, and plenty of reasons to smile. I hope today reminds you how much the people around you appreciate having you in their lives. 🎉"
   },
   {
     id: 'letter-p2-el',
-    text: "I'm so lucky to have you, and I can't wait to make a million more memories with you. Here's to you, your dreams, and all the happiness you deserve."
+    text: "Keep being curious, kind, and wonderfully you. Here's to new adventures, big dreams, and memories worth celebrating."
   },
   {
     id: 'letter-closing-el',
-    text: "Happy birthday to you.i wish you be successfull in life! 🫶🏻🎂❤️"
+    text: "Here's to your best year yet. Have an amazing birthday! 🎂✨"
   }
 ];
 
@@ -564,7 +549,7 @@ function startLetterTypewriter() {
       }
 
       // Natural emotional cadence (pause at punctuation/emojis)
-      const delay = (ch === '.' || ch === '!' || ch === '?' || ch === '💖') ? 110 : (ch === ',' ? 50 : 16);
+      const delay = (ch === '.' || ch === '!' || ch === '?' || ch === '🎉') ? 110 : (ch === ',' ? 50 : 16);
       letterTypewriterTimer = setTimeout(typeNextChar, delay);
     } else {
       secIndex++;
@@ -715,19 +700,20 @@ function launchConfetti() {
     c.className = 'confetti-piece';
     const sz = Math.random() * 10 + 7;
     c.style.cssText = `left:${Math.random()*100}%;top:-20px;width:${sz}px;height:${sz}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'3px'};--cf-d:${Math.random()*3+2}s;--cf-delay:${Math.random()*2}s;`;
+    c.addEventListener('animationend', () => c.remove(), { once: true });
     document.body.appendChild(c);
   }
 }
 
-/* ─── MOUSE TRAIL HEARTS ─── */
+/* ─── MOUSE TRAIL SPARKLES ─── */
 let lastTrail = 0;
 document.addEventListener('mousemove', e => {
   const now = Date.now();
   if (now - lastTrail < 120 || !document.getElementById('curtain-left').classList.contains('open')) return;
   lastTrail = now;
-  const em = ['💖','💗','💕','✨','🌸'];
+  const em = ['✨','🎉','⭐','🎈','🎊'];
   const h = document.createElement('div');
-  h.className = 'trail-heart';
+  h.className = 'trail-sparkle';
   h.textContent = em[Math.floor(Math.random() * em.length)];
   h.style.left = (e.clientX - 10) + 'px';
   h.style.top = (e.clientY - 10) + 'px';
